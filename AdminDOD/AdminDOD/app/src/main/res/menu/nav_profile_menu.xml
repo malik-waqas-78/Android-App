@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/mi_orders"
+            android:icon="@drawable/ic_all_orders"
+            android:title="@string/all_orders" />
+        <item
+            android:id="@+id/mi_service_provider"
+            android:icon="@drawable/service_provider"
+            android:title="@string/service_providers" />
+    </group>
+
+    <item android:title="@string/personal_settings">
+        <menu>
+            <item
+                android:id="@+id/mi_edit_profile"
+                android:title="@string/edit_profile" />
+        </menu>
+    </item>
+</menu>

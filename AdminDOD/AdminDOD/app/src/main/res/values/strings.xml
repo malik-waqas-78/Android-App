@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">DOD-Admin</string>
+    <string name="all_orders">All Orders</string>
+    <string name="pending_orders">Pending</string>
+    <string name="completed_orders">Completed</string>
+    <string name="accepted_orders">Accepted</string>
+    <string name="canceled_orders">Canceled</string>
+    <string name="service_providers">Service Providers</string>
+    <string name="online">Online</string>
+    <string name="offline">Offline</string>
+    <string name="add_new">Add New</string>
+    <string name="personal_settings">Personal Settings</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="username">UserName</string>
+    <string name="todo">TODO</string>
+    <string name="logout">logout</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="tickettext">No Available Orders</string>
+    <string name="password">password</string>
+    <string name="Mobile_Number">Mobile Number</string>
+    <string name="name">Name</string>
+    <string name="register_provider">Register Provider</string>
+    <string name="imgdescription">App Icon</string>
+</resources>

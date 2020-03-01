@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/chats"
+        android:icon="@android:drawable/sym_action_email"
+        android:title="@string/chats"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/orders"
+        android:icon="@drawable/ic_orders"
+        android:title="@string/chats"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/complaints"
+        android:title="Complaints"
+        app:showAsAction="never" />
+</menu>

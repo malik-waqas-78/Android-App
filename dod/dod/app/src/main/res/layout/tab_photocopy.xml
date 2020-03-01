@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:weightSum="11">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="24dip"
+        android:layout_height="24dip"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:contentDescription="@string/description"
+        app:srcCompat="@drawable/photocopy" />
+
+    <ProgressBar
+        android:id="@+id/progressBar4"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:scrollbarSize="4dp"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/et_photocopy_pickup_point"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="@string/Pickupplace"
+        android:inputType="textPersonName"
+        android:maxLength="50"
+        android:textColorHint="#3C3A3A"
+        android:textCursorDrawable="@color/common_google_signin_btn_text_dark_focused" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <EditText
+            android:id="@+id/et_photocopy_pages_no"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:foregroundGravity="center"
+            android:hint="@string/pagesno"
+            android:inputType="number"
+            android:maxLength="3"
+            android:textColorHint="#3C3A3A"
+            android:textCursorDrawable="@color/common_google_signin_btn_text_dark_focused" />
+
+        <EditText
+            android:id="@+id/et_photocopy_copies_no"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:foregroundGravity="center"
+            android:hint="@string/copiesno"
+            android:inputType="number"
+            android:maxLength="3"
+            android:textColorHint="#3C3A3A"
+            android:textCursorDrawable="@color/common_google_signin_btn_text_dark_focused" />
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/rb_photocopy_sides"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <RadioButton
+            android:id="@+id/rb_photocopy_onesided"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="@string/oneside"
+            android:textColorHighlight="#0A0A0A"
+            android:textColorLink="#070707"
+            android:textCursorDrawable="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/rb_photocopy_twosided"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:checked="false"
+            android:text="@string/twosided"
+            android:textColorHighlight="#0C0C0C"
+            android:textColorLink="#000000"
+            android:textCursorDrawable="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="18sp" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/bt_photocopy_pickup_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#1C5505"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/Time"
+        android:textColor="#E0E985"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/et_photocopy_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/details"
+        android:inputType="textMultiLine"
+        android:maxLength="300"
+        android:textColorHint="#292828"
+        android:textCursorDrawable="@color/common_google_signin_btn_text_dark_focused" />
+
+    <Button
+        android:id="@+id/bt_photocopy_place_order"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_weight="1"
+        android:background="#FF9800"
+        android:text="@string/order"
+        android:textColor="#86050B"
+        android:textSize="24sp" />
+
+</LinearLayout>

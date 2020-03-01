@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_allorders">
+
+
+    <fragment
+        android:id="@+id/nav_allorders"
+        android:name="com.dod.DOD_ServiceProviders.ui.allorders.AllOrders"
+        android:label="@string/all_orders"
+        tools:layout="@layout/fragment_allorders" />
+    <fragment
+        android:id="@+id/nav_chats"
+        android:name="com.dod.DOD_ServiceProviders.ui.chat.Chats"
+        android:label="@string/chat"
+        tools:layout="@layout/fragment_chats" />
+    <fragment
+        android:id="@+id/nav_share"
+        android:name="com.dod.DOD_ServiceProviders.ui.totalearnings.EarningFragment"
+        android:label="@string/menu_Total_Eaarnings"
+        tools:layout="@layout/fragment_share" />
+
+    <fragment
+        android:id="@+id/nav_send"
+        android:name="com.dod.DOD_ServiceProviders.ui.complaints.ComplaintsFragment"
+        android:label="@string/menu_send"
+        tools:layout="@layout/fragment_send" />
+</navigation>

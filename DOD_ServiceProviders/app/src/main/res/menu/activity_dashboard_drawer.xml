@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_allorders"
+            android:icon="@drawable/ic_shopping"
+            android:title="@string/all_orders" />
+        <item
+            android:id="@+id/nav_chats"
+            android:icon="@drawable/ic_chat_black_24dp"
+            android:title="@string/chat" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/givemoney"
+                android:title="@string/menu_Total_Eaarnings" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/complaint"
+                android:title="@string/menu_send" />
+        </menu>
+    </item>
+
+</menu>
