@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 
+import com.dod.DOD_ServiceProviders.Dashboard;
 import com.dod.DOD_ServiceProviders.R;
 
 import java.util.ArrayList;
@@ -61,10 +62,11 @@ public class chatAdatpter extends BaseAdapter {
                 public void onClick(View view) {
                     //DO NEXT THING
                     Intent intent = new Intent(context, Messaging.class);
+                    intent.putExtra("proName", Dashboard.name);
                     intent.putExtra("cusName", row.getName());
                     intent.putExtra("cusNo", row.getCusNo());
                     intent.putExtra("proNo", row.getProNo());
-                    intent.putExtra("idNo", row.getId());
+                    intent.putExtra("orderNo", row.getId());
                     context.startActivity(intent);
                     //Toast.makeText(context, "selected card view", Toast.LENGTH_SHORT).show();
                 }

@@ -1,12 +1,19 @@
 package com.dod.DOD_ServiceProviders.ui.complaints;
 
 public class ComplaiintsViewModal {
-    String complaintBy,proNo,cusNo,complaint,orderno,status;
+    String complaintBy,complaint,orderno,status,complaintID,phNo,name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public ComplaiintsViewModal(String complaintBy, String proNo, String cusNo, String complaint, String orderno, String status) {
         this.complaintBy = complaintBy;
-        this.proNo = proNo;
-        this.cusNo = cusNo;
+
         this.complaint = complaint;
         this.orderno = orderno;
         this.status = status;
@@ -24,20 +31,20 @@ public class ComplaiintsViewModal {
         this.complaintBy = complaintBy;
     }
 
-    public String getProNo() {
-        return proNo;
+    public String getComplaintID() {
+        return complaintID;
     }
 
-    public void setProNo(String proNo) {
-        this.proNo = proNo;
+    public void setComplaintID(String complaintID) {
+        this.complaintID = complaintID;
     }
 
-    public String getCusNo() {
-        return cusNo;
+    public String getPhNo() {
+        return phNo;
     }
 
-    public void setCusNo(String cusNo) {
-        this.cusNo = cusNo;
+    public void setPhNo(String phNo) {
+        this.phNo = phNo;
     }
 
     public String getComplaint() {

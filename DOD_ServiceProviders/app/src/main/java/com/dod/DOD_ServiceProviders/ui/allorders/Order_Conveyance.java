@@ -3,7 +3,31 @@ package com.dod.DOD_ServiceProviders.ui.allorders;
 public class Order_Conveyance {
     String pickup_point, drop_Point, transport_Type, seats, pickup_Time, pickup_Date, extr_Details, current_Time_milies, status, type;
 
-    String time, date, order_no, cusNo, name,proNo,bill;
+    String time, date, order_no, cusNo, name,proNo,bill,proname,cusVis,proVis;
+
+    public String getCusVis() {
+        return cusVis;
+    }
+
+    public void setCusVis(String cusVis) {
+        this.cusVis = cusVis;
+    }
+
+    public String getProVis() {
+        return proVis;
+    }
+
+    public void setProVis(String proVis) {
+        this.proVis = proVis;
+    }
+
+    public String getProname() {
+        return proname;
+    }
+
+    public void setProname(String proname) {
+        this.proname = proname;
+    }
 
     public String getBill() {
         return bill;

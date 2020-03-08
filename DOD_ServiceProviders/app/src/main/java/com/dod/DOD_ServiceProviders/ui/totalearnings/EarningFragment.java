@@ -49,20 +49,34 @@ public class EarningFragment extends Fragment {
                         if(type.equals("cony")){
                             Bill_Conveyance bill_conveyance=snapshot.getValue(Bill_Conveyance.class);
                             vbalance+=Float.valueOf(bill_conveyance.getFair());
-                            vdodcharges+=0;
+                            if(snapshot.child("payed").getValue().equals("true")) {
+                                vdodcharges+=0;
+                            }else{
+                                vdodcharges+=0;
+                            }
                             vearnings+=0;
                             vexpencs+=0;
                         }else if(type.equals("print")){
                             Bill_Printing bill_printing=snapshot.getValue(Bill_Printing.class);
+                            if(snapshot.child("payed").getValue().equals("true")) {
+                                vdodcharges+=0;
+                            }else{
+                                vdodcharges+=Float.valueOf(bill_printing.getDodcharges());
+                            }
                             vbalance+=Float.valueOf(bill_printing.getTotalbill());
                             vearnings+=Float.valueOf(bill_printing.getProcharges());
-                            vdodcharges+=Float.valueOf(bill_printing.getDodcharges());
+
                             vexpencs+=Float.valueOf(bill_printing.ExpendeturesEarnings());
                         }else if(type.equals("copy")){
                             Bill_Copying bill_copying=snapshot.getValue(Bill_Copying.class);
+                            if(snapshot.child("payed").exists()&&snapshot.child("payed").getValue().equals("true")) {
+                                vdodcharges+=0;
+                            }else{
+                                vdodcharges+=Float.valueOf(bill_copying.getDodcharges());
+                            }
                             vbalance+=Float.valueOf(bill_copying.getTotalbill());
                             vearnings+=Float.valueOf(bill_copying.getProcharges());
-                            vdodcharges+=Float.valueOf(bill_copying.getDodcharges());
+
                             vexpencs+=Float.valueOf(bill_copying.ExpendeturesEarnings());
                         }
 
@@ -70,11 +84,11 @@ public class EarningFragment extends Fragment {
                 }
                 //here show bills
 
-                balance.setText(String.valueOf(vbalance));
+                balance.setText(String.valueOf(vbalance)+" Rs");
                 earnings.setText(String.valueOf(vearnings)+" Rs");
                 dodcharges.setText(String.valueOf(vdodcharges)+" Rs");
                 expences.setText(String.valueOf(vexpencs)+" Rs");
-                totalorders.setText((String.valueOf(vtotalorders)+" Rs"));
+                totalorders.setText((String.valueOf(vtotalorders)));
                 progressBar.setVisibility(View.GONE);
             }
 

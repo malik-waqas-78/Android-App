@@ -1,6 +1,7 @@
 package com.dod.DOD_ServiceProviders;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,9 +9,11 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.dod.DOD_ServiceProviders.notification.OreoAndAboveNotification;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,10 +30,15 @@ public class LoginActivity extends AppCompatActivity {
     EditText etpass, etphno;
     DatabaseReference mDatabase;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        OreoAndAboveNotification oreoAndAboveNotification=new OreoAndAboveNotification(LoginActivity.this);
+        oreoAndAboveNotification.createChannel();
+
         progressBar = findViewById(R.id.loading);
         login = findViewById(R.id.btn_login);
         etpass = findViewById(R.id.edtxt_password);

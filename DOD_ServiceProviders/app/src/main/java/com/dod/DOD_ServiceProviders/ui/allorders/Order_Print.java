@@ -2,7 +2,23 @@ package com.dod.DOD_ServiceProviders.ui.allorders;
 
 public class Order_Print {
     String no_of_Pages, no_of_Prints, page_Color, pickup_Time, pickup_Point, url, file_add, extra_details, current_Time_milies, status, type;
-    String time, order_no, date, cusNo, name,proNo,bill;
+    String time, order_no, date, cusNo, name,proNo,bill,proname,cusVis,proVis;
+
+    public String getCusVis() {
+        return cusVis;
+    }
+
+    public void setCusVis(String cusVis) {
+        this.cusVis = cusVis;
+    }
+
+    public String getProVis() {
+        return proVis;
+    }
+
+    public void setProVis(String proVis) {
+        this.proVis = proVis;
+    }
 
     public Order_Print(String no_of_Pages, String no_of_Prints, String page_Color, String pickup_Time, String pickup_Point, String url, String file_add, String extra_details, String current_Time_milies, String status, String type, String time, String order_no, String date, String cusNo, String name, String proNo, String bill) {
         this.no_of_Pages = no_of_Pages;
@@ -23,6 +39,14 @@ public class Order_Print {
         this.name = name;
         this.proNo = proNo;
         this.bill = bill;
+    }
+
+    public String getProname() {
+        return proname;
+    }
+
+    public void setProname(String proname) {
+        this.proname = proname;
     }
 
     public String getBill() {

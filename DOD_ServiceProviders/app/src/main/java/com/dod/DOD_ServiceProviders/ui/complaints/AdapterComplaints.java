@@ -56,7 +56,7 @@ public class AdapterComplaints extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         switch(holder.getItemViewType()){
             case 1:
                 ((ComplaintViewHolder)holder).orderno.setText(complaints.get(position).getOrderno());
@@ -67,8 +67,8 @@ public class AdapterComplaints extends RecyclerView.Adapter {
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(context,Messaging.class);
-                        intent.putExtra("prono",complaints.get(p).getProNo());
-                        intent.putExtra("orderno",complaints.get(p).getOrderno());
+                        intent.putExtra("phNo",complaints.get(p).getPhNo());
+                        intent.putExtra("cmpID",complaints.get(p).getComplaintID());
                         context.startActivity(intent);
                     }
                 });
@@ -89,10 +89,10 @@ public class AdapterComplaints extends RecyclerView.Adapter {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
-                                        databaseReference.child("COMPLAINTS").child(Dashboard.phoneNumber).child("complaint").
-                                                child(orno).removeValue();
-                                        databaseReference.child("COMPLAINTS").child(Dashboard.phoneNumber).child("msg").
-                                                child(orno).removeValue();
+                                        databaseReference.child("COMPLAINTS").child("complaint").
+                                                child(complaints.get(position).getComplaintID()).removeValue();
+                                        databaseReference.child("COMPLAINTS").child("msg").
+                                                child(complaints.get(position).getComplaintID()).removeValue();
                                     }
                                 }).setNegativeButton(android.R.string.no,null)
                                 // A null listener allows the button to dismiss the dialog and take no further action.

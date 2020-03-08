@@ -14,7 +14,23 @@ public class Order_Photocopy {
     String orderno;
     String cusNo;
     String name;
-    String type,proNo,bill;
+    String type,proNo,bill,proname,cusVis,proVis;
+
+    public String getCusVis() {
+        return cusVis;
+    }
+
+    public void setCusVis(String cusVis) {
+        this.cusVis = cusVis;
+    }
+
+    public String getProVis() {
+        return proVis;
+    }
+
+    public void setProVis(String proVis) {
+        this.proVis = proVis;
+    }
 
     public Order_Photocopy(String no_of_pages, String no_of_copiess, String page_sides, String pickup_point, String pickup_time, String extra_details, String current_time_milies, String status, String time, String date, String orderno, String cusNo, String name, String type, String proNo, String bill) {
         this.no_of_pages = no_of_pages;
@@ -33,6 +49,14 @@ public class Order_Photocopy {
         this.type = type;
         this.proNo = proNo;
         this.bill = bill;
+    }
+
+    public String getProname() {
+        return proname;
+    }
+
+    public void setProname(String proname) {
+        this.proname = proname;
     }
 
     public String getBill() {

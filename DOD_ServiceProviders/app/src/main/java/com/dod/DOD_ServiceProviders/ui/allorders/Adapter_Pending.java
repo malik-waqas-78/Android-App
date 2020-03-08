@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -16,11 +17,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dod.DOD_ServiceProviders.Dashboard;
 import com.dod.DOD_ServiceProviders.R;
+import com.dod.DOD_ServiceProviders.notification.APIClient;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Adapter_Pending extends RecyclerView.Adapter {
 
@@ -192,34 +202,40 @@ public class Adapter_Pending extends RecyclerView.Adapter {
     public void accept_Order(Order_Photocopy order_photocopy) {
         order_photocopy.setStatus("accepted");
         order_photocopy.setProNo(Dashboard.phoneNumber);
+        order_photocopy.setProname(Dashboard.name);
         databaseReference.child("ORDERS").child("accepted").child(order_photocopy.getOrderno()).setValue(order_photocopy);
         databaseReference.child("ORDERS").child("List").child(order_photocopy.getOrderno()).child("ProNo").setValue(Dashboard.phoneNumber);
         databaseReference.child("ORDERS").child("List").child(order_photocopy.getOrderno()).child("ProName").setValue(Dashboard.name);
         databaseReference.child("ORDERS").child("List").child(order_photocopy.getOrderno()).child("time").setValue(order_photocopy.getTime());
         databaseReference.child("ORDERS").child("List").child(order_photocopy.getOrderno()).child("status").setValue("accepted");
         databaseReference.child("ORDERS").child("pending").child(order_photocopy.getOrderno()).removeValue();
+        notifyCustomers(Dashboard.name,"Photocopy",order_photocopy.getCusNo());
     }
 
     public void accept_Order(Order_Print order_print) {
         order_print.setStatus("accepted");
         order_print.setProNo(Dashboard.phoneNumber);
+        order_print.setProname(Dashboard.name);
         databaseReference.child("ORDERS").child("accepted").child(order_print.getOrder_no()).setValue(order_print);
         databaseReference.child("ORDERS").child("List").child(order_print.getOrder_no()).child("ProNo").setValue(Dashboard.phoneNumber);
         databaseReference.child("ORDERS").child("List").child(order_print.getOrder_no()).child("ProName").setValue(Dashboard.name);
         databaseReference.child("ORDERS").child("List").child(order_print.getOrder_no()).child("time").setValue(order_print.getTime());
         databaseReference.child("ORDERS").child("List").child(order_print.getOrder_no()).child("status").setValue("accepted");
         databaseReference.child("ORDERS").child("pending").child(order_print.getOrder_no()).removeValue();
+        notifyCustomers(Dashboard.name,"Print",order_print.getCusNo());
     }
 
     public void accept_Order(Order_Conveyance order_conveyance) {
         order_conveyance.setStatus("accepted");
         order_conveyance.setProNo(Dashboard.phoneNumber);
+        order_conveyance.setProname(Dashboard.name);
         databaseReference.child("ORDERS").child("accepted").child(order_conveyance.getOrder_no()).setValue(order_conveyance);
         databaseReference.child("ORDERS").child("List").child(order_conveyance.getOrder_no()).child("ProNo").setValue(Dashboard.phoneNumber);
         databaseReference.child("ORDERS").child("List").child(order_conveyance.getOrder_no()).child("ProName").setValue(Dashboard.name);
         databaseReference.child("ORDERS").child("List").child(order_conveyance.getOrder_no()).child("time").setValue(order_conveyance.getTime());
         databaseReference.child("ORDERS").child("List").child(order_conveyance.getOrder_no()).child("status").setValue("accepted");
         databaseReference.child("ORDERS").child("pending").child(order_conveyance.getOrder_no()).removeValue();
+        notifyCustomers(Dashboard.name,"Conveyance ",order_conveyance.getCusNo());
     }
 
     private void showPopup(String otp_error, String s, Context context) {
@@ -233,5 +249,63 @@ public class Adapter_Pending extends RecyclerView.Adapter {
                 // A null listener allows the button to dismiss the dialog and take no further action.
                 .setIcon(android.R.drawable.ic_dialog_alert);
         alert.show();
+    }
+
+    private void notifyCustomers(String proName,String orType,String cusNo) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Log.d("927277", "notifyCustomers: "+cusNo);
+        reference.child("USERS").child(cusNo).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Log.d("927277", "onDataChange: "+dataSnapshot.getValue());
+                    if(!dataSnapshot.child("token").exists()&&dataSnapshot.child("token").getValue()==null) {
+                        return;
+                    }
+
+                    String token = dataSnapshot.child("token").getValue().toString();
+                    String cusName=dataSnapshot.child("name").getValue().toString();
+                    JsonObject payload = buildNotificationPayload(token,cusNo,cusName,orType,proName);
+                    APIClient.getApiService().sendNotification(payload).enqueue(
+                            new Callback<JsonObject>() {
+                                @Override
+                                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                                    if (response.isSuccessful()) {
+                                        Toast.makeText(context, "Notification send successful",
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                    Log.d("927277", "onResponse: "+response.body()+response.message());
+                                    Toast.makeText(context, "Notification send successful"+response.body(),
+                                            Toast.LENGTH_LONG).show();
+                                }
+
+                                @Override
+                                public void onFailure(Call<JsonObject> call, Throwable t) {
+                                }
+                            });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+    private JsonObject buildNotificationPayload(String token,String cusNo,String cusName,String orType,String  proName) {
+        // compose notification json payload
+        JsonObject payload = new JsonObject();
+        payload.addProperty("to", token);
+        // compose data payload here
+        JsonObject data = new JsonObject();
+        data.addProperty("title", "Your "+orType+" Order has been accepted.");
+        data.addProperty("message", proName+" has accepted your order.\n Chat with him for further details.");
+        data.addProperty("cusName",cusName);
+        data.addProperty("cusNo",cusNo);
+        data.addProperty("intent","0");
+        // add data payload
+        payload.add("data", data);
+        return payload;
     }
 }

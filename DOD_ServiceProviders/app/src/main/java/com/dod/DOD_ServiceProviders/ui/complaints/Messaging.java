@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,15 +13,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dod.DOD_ServiceProviders.Dashboard;
 import com.dod.DOD_ServiceProviders.R;
+import com.dod.DOD_ServiceProviders.notification.APIClient;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Messaging extends AppCompatActivity {
     String proNo, id;
@@ -36,8 +46,8 @@ public class Messaging extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messaging);
         Intent intent = getIntent();
-        proNo = intent.getStringExtra("prono");
-        id = intent.getStringExtra("orderno");
+        proNo = intent.getStringExtra("phNo");
+        id = intent.getStringExtra("cmpID");
         getSupportActionBar().setTitle("Admin");
         databaseReference = FirebaseDatabase.getInstance().getReference();
         calendar = Calendar.getInstance();
@@ -55,7 +65,7 @@ public class Messaging extends AppCompatActivity {
     }
 
     private void getMessages() {
-        databaseReference.child("COMPLAINTS").child(proNo).child("msg").child(id).addChildEventListener(new ChildEventListener() {
+        databaseReference.child("COMPLAINTS").child("msg").child(id).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 MsgDetails msg = dataSnapshot.getValue(MsgDetails.class);
@@ -119,7 +129,72 @@ public class Messaging extends AppCompatActivity {
         String msgid = System.currentTimeMillis() + date;
         MsgDetails msgDetails = new MsgDetails(msgid, "pro", msg, Time);
         msgDetails.setViewType(1);
-        databaseReference.child("COMPLAINTS").child(proNo).child("msg").child(id).child(msgid).setValue(msgDetails);
+        databaseReference.child("COMPLAINTS").child("msg").child(id).child(msgid).setValue(msgDetails)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        notifyAdmin(proNo, Dashboard.name,id,msg);
+                    }
+                });
         text.setText("");
+    }
+
+    private void notifyAdmin(String no,String name,String cmpID,String msg) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        //Log.d("927277", "notifyProviders: " + proNo);
+        reference.child("Admin").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.child("token").exists() && dataSnapshot.child("token").getValue() == null) {
+                    Log.d("927277", "tken is null: ");
+                    return;
+                }
+                String token = dataSnapshot.child("token").getValue().toString();
+                JsonObject payload = buildNotificationPayload(token, no,name,cmpID,msg);
+                APIClient.getApiService().sendNotification(payload).enqueue(
+                        new Callback<JsonObject>() {
+                            @Override
+                            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(Messaging.this, "Notification send successful",
+                                            Toast.LENGTH_LONG).show();
+                                    Log.d("927277", "Notification sent: " + response.toString());
+                                } else {
+                                    Log.d("927277", "Error responce: " + response.toString());
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<JsonObject> call, Throwable t) {
+                                Log.d("927277", "Error failed: ");
+                            }
+                        });
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    private JsonObject buildNotificationPayload(String token, String no, String name,String cmpID,String msg) {
+        // compose notification json payload
+        JsonObject payload = new JsonObject();
+        payload.addProperty("to", token);
+        // compose data payload here
+        JsonObject data = new JsonObject();
+        data.addProperty("subtext", "New Complaint Message");
+        data.addProperty("message", msg);
+        data.addProperty("title", name);
+        data.addProperty("no",no);
+        data.addProperty("cmpID",cmpID);
+        data.addProperty("intent", "admin2");
+        // add data payload
+        payload.add("data", data);
+        return payload;
     }
 }

@@ -39,14 +39,14 @@
                 android:popupBackground="@drawable/spinnerstyle" />
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:background="@drawable/inputlayout"
+                android:padding="10dp">
 
                 <EditText
                     android:id="@+id/complaint"
-                    style="@android:style/Widget.EditText"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:autofillHints=""

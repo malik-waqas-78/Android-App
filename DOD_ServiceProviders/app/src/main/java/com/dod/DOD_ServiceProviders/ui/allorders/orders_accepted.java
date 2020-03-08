@@ -1,5 +1,6 @@
 package com.dod.DOD_ServiceProviders.ui.allorders;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ public class orders_accepted extends Fragment {
     ProgressBar progressBar;
     Adapter_Accepted myListViewAdapter;
     RecyclerView listView;
+    Context context;
 
     @Nullable
     @Override
@@ -42,6 +44,7 @@ public class orders_accepted extends Fragment {
         listView = view.findViewById(R.id.accepted_listview);
         progressBar = view.findViewById(R.id.pBar_accepted);
         progressBar.setVisibility(View.VISIBLE);
+        context=container.getContext();
         databaseReference = FirebaseDatabase.getInstance().getReference();
         orders = new ArrayList<>();
         types = new ArrayList<>();
@@ -75,7 +78,7 @@ public class orders_accepted extends Fragment {
                 Order_Print print_order;
                 types.clear();
                 orders.clear();
-                Toast.makeText(getContext(), ""+dataSnapshot.getChildrenCount(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, ""+dataSnapshot.getChildrenCount(), Toast.LENGTH_SHORT).show();
                 System.out.println("92727 "+dataSnapshot.getChildrenCount());
                 if (dataSnapshot.getChildrenCount() == 0||(!dataSnapshot.exists())||dataSnapshot==null) {
                     types.add("0");
