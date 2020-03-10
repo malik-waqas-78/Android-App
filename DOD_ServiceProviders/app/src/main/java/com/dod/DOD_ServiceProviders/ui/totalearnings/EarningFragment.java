@@ -49,7 +49,7 @@ public class EarningFragment extends Fragment {
                         if(type.equals("cony")){
                             Bill_Conveyance bill_conveyance=snapshot.getValue(Bill_Conveyance.class);
                             vbalance+=Float.valueOf(bill_conveyance.getFair());
-                            if(snapshot.child("payed").getValue().equals("true")) {
+                            if(snapshot.child("payed").exists()&&snapshot.child("payed").getValue().equals("true")) {
                                 vdodcharges+=0;
                             }else{
                                 vdodcharges+=0;
@@ -58,7 +58,7 @@ public class EarningFragment extends Fragment {
                             vexpencs+=0;
                         }else if(type.equals("print")){
                             Bill_Printing bill_printing=snapshot.getValue(Bill_Printing.class);
-                            if(snapshot.child("payed").getValue().equals("true")) {
+                            if(snapshot.child("payed").exists()&&snapshot.child("payed").getValue().equals("true")) {
                                 vdodcharges+=0;
                             }else{
                                 vdodcharges+=Float.valueOf(bill_printing.getDodcharges());
